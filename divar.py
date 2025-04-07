@@ -1,20 +1,20 @@
 class Ad:
     def __init__(self, title, owner):
         self.title = title
-        self.owner = owner  # User object
+        self.owner = owner  
 
 
 class User:
     def __init__(self, username):
         self.username = username
-        self.posted_ads = []    # List of Ad objects
-        self.favorites = []     # List of Ad objects
+        self.posted_ads = []    
+        self.favorites = []     
 
 
 class AdSystem:
     def __init__(self):
-        self.users = {}           # username -> User
-        self.ads_by_title = {}    # title -> Ad
+        self.users = {}           
+        self.ads_by_title = {}    
 
     def register_user(self, username):
         if username in self.users:
@@ -66,6 +66,43 @@ class AdSystem:
         titles = [ad.title for ad in user.posted_ads]
         print(" ".join(titles))
 
+    def add_favorite(self, username, title):
+        if username not in self.users:
+            print("invalid username")
+            return
+        
+        if title not in self.ads_by_title:
+            print("invalid title")
+            return
+        
+        user = self.users[username]
+        ad = self.ads_by_title[title]
+        if ad in user.favorites:
+            print("already favorite")
+            return
+        
+        user.favorites.append(ad)
+        print("added successfully")
+
+    def rem_favorite(self, username, title):
+        if username not in self.users:
+            print("invalid username")
+            return
+
+        if title not in self.ads_by_title:
+            print("invalid title")
+            return
+
+        user = self.users[username]
+        ad = self.ads_by_title[title]
+
+        if ad not in user.favorites:
+            print("already not favorite")
+            return
+
+        user.favorites = [a for a in user.favorites if a.title != title]
+        print("removed successfully")
+
     def process_command(self, command_str):
         parts = command_str.strip().split(maxsplit=2)
 
@@ -91,5 +128,26 @@ class AdSystem:
         elif command == "list_my_advertises" and len(parts) == 2:
             self.list_my_advertises(parts[1])
 
+        elif command == "add_favorite" and len(parts) == 3:
+            username = parts[1]
+            title = parts[2]
+            self.add_favorite(username, title)
+
+        elif command == "rem_favorite" and len(parts) == 3:
+            username = parts[1]
+            title = parts[2]
+            self.rem_favorite(username, title)
+
         else:
             print("invalid command")
+
+
+system = AdSystem()
+
+system.process_command("register ali")
+system.process_command("add_advertise ali گوشی")
+system.process_command("add_advertise ali لپتاپ")
+system.process_command("list_my_advertises ali")      
+system.process_command("rem_advertise ali گوشی")
+system.process_command("list_my_advertises ali")      
+system.process_command("rem_advertise ali تلویزیون")  
