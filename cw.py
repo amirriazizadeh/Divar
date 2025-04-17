@@ -29,7 +29,6 @@ class Add:
     def __str__(self):
         return str(self.total)
 
-    __repr__ = __str__ 
 
 
 
