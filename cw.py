@@ -10,8 +10,7 @@ class Singleton:
             print("Returning existing instance")
         return cls._instance
 
-    def __init__(self):
-        print("Initializing")
+    
 
 s1 = Singleton()
 s2 = Singleton()
