@@ -12,7 +12,7 @@ class Authenticator:
             raise PasswordTooShort("Password must be at least 8 characters.")
         
         self.users[username] = User(username, password)
-        print(f"✅ User '{username}' signed up successfully.")
+        print(f"User '{username}' signed up successfully.")
 
     def login(self, username: str, password: str):
         if username not in self.users:
@@ -23,14 +23,14 @@ class Authenticator:
             raise InvalidPassword("Incorrect password.")
         
         user.logged_in = True
-        print(f"✅ User '{username}' logged in successfully.")
+        print(f"User '{username}' logged in successfully.")
 
     def logout(self, username: str):
         if username in self.users and self.users[username].logged_in:
             self.users[username].logged_in = False
-            print(f"👋 User '{username}' logged out.")
+            print(f"User '{username}' logged out.")
         else:
-            print("⚠️ User is not logged in.")
+            print("User is not logged in.")
 
     def is_logged_in(self, username: str) -> bool:
         return self.users.get(username).logged_in if username in self.users else False
